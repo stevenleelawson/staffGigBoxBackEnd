@@ -41,7 +41,6 @@ app.post('/api/v1/staff', (request, response) => {
   const staff = request.body;
   const keys = ['name', 'bartender', 'barback', 'bar_manager', 'ass_bar_manager', 'beer_bucket']
   for (let requiredParameter of keys) {
-    console.log(staff[requiredParameter])
     if (staff[requiredParameter] === undefined) {
       return response
         .status(422)
@@ -64,7 +63,6 @@ app.post('/api/v1/events', (request, response) => {
   const events = request.body;
   const keys = ['name', 'venue', 'date', 'time', 'bartenders', 'barbacks', 'bar_manager', 'ass_bar_manager', 'beer_bucket']
   for (let requiredParameter of keys) {
-    console.log(events[requiredParameter])
     if (events[requiredParameter] === undefined) {
       return response
         .status(422)
