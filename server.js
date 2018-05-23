@@ -81,6 +81,34 @@ app.post('/api/v1/events', (request, response) => {
     })
 })
 
+app.delete('/api/v1/staff/:id', (request, response) => {
+  database('staff').where('id', request.params.id).del()
+    .then(staff => {
+      if (staff) {
+        response.status(200).json(`Deleted ${request.params.id}`)
+      } else {
+        response.status(404).json(`Delete failed, Id not found`)
+      }
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    })
+})
+
+app.delete('/api/v1/events/:id', (request, response) => {
+  database('events').where('id', request.params.id).del()
+    .then(events => {
+      if (events) {
+        response.status(200).json(`Deleted ${request.params.id}`)
+      } else {
+        response.status(404).json(`Delete failed, Id not found`)
+      }
+    })
+    .catch(error => {
+      response.status(500).json({error})
+    })
+})
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`)
 })
