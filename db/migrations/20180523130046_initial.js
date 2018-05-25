@@ -2,6 +2,7 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('staff', (table) => {
       table.increments('id').primary();
+      table.string('google_id')
       table.string('name');
       table.boolean('bartender');
       table.boolean('barback');

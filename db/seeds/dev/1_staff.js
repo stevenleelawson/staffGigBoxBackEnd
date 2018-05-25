@@ -4,12 +4,13 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       return knex('staff').insert([
         {
-          name: 'Jim Jarmandy',
+          name: 'Jared',
           bartender: true,
           barback: false,
           bar_manager: false,
           ass_bar_manager: true,
-          beer_bucket: false
+          beer_bucket: false,
+          google_id: '1pLSNLEaSVT7hvRa5q4Vyy37IIN2',
         },
         {
           name: 'Dathrl Cheesehad',
@@ -17,7 +18,9 @@ exports.seed = function(knex, Promise) {
           barback: false,
           bar_manager: true,
           ass_bar_manager: true,
-          beer_bucket: false
+          beer_bucket: false,
+          google_id: '1pLSNLEaSVT7hvRa5q4Vyy37IIN3'
+
         },
         {
           name: 'Malachai Dumbfoot',
@@ -25,7 +28,8 @@ exports.seed = function(knex, Promise) {
           barback: true,
           bar_manager: false,
           ass_bar_manager: false,
-          beer_bucket: false
+          beer_bucket: false,
+          google_id: '1pLSNLEaSVT7hvRa5q4Vyy37IIN4'
         }
       ]);
     });

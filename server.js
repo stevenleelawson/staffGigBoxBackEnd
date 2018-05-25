@@ -10,6 +10,12 @@ const database = require('knex')(configuration);
 app.set('port', process.env.PORT || 3000);
 
 app.use(bodyParser.json());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+});
 
 app.locals.title = 'Staff Gig Box';
 
@@ -18,6 +24,7 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/v1/staff', (request, response) => {
+  console.log('wow')
   database('staff').select()
     .then(staff => {
       response.status(200).json(staff)
