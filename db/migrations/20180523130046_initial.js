@@ -30,9 +30,7 @@ exports.up = function(knex, Promise) {
 
     knex.schema.createTable('staff_events', (table) => {
       table.increments('id').primary();
-      // table.integer('event_id').unsigned();
       table.integer('event_id').references('events.id');
-      // table.integer('staff_id').unsigned();
       table.integer('staff_id').references('staff.id');
     })
   ])
