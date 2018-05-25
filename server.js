@@ -115,6 +115,29 @@ app.delete('/api/v1/events/:id', (request, response) => {
     })
 })
 
+app.post('/api/v1/schedule', (request, response) => {
+
+  const schedule = request.body;
+  const keys = ['event_id', 'staff_id']
+  for (let requiredParameter of keys) {
+    if (schedule[requiredParameter] === undefined) {
+      return response
+        .status(422)
+        .send({
+          error: `You are missing a ${requiredParameter} property`
+        })
+    }
+  }
+
+  database('staff_events').insert(schedule, keys)
+    .then(schedule => {
+      response.status(201).json(schedule[0])
+    })
+    .catch(error => {
+      response.status(500).json()
+    })
+});
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`)
 })
