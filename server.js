@@ -24,7 +24,6 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/v1/staff', (request, response) => {
-  console.log('wow')
   database('staff').select()
     .then(staff => {
       response.status(200).json(staff)

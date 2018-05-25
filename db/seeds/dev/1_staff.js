@@ -4,13 +4,13 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       return knex('staff').insert([
         {
-          name: 'Jared',
+          name: 'Hottrod',
           bartender: true,
           barback: false,
           bar_manager: false,
           ass_bar_manager: true,
           beer_bucket: false,
-          google_id: '1pLSNLEaSVT7hvRa5q4Vyy37IIN2',
+          google_id: '1pLSNLEaSVT7hvRa5q4Vyy37IIN1',
         },
         {
           name: 'Dathrl Cheesehad',
