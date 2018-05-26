@@ -52,13 +52,26 @@ app.get('/api/v1/events/:id', (request, response) => {
         response.status(404).json('No matches found')
       }
     })
-    .catch(error => response.status(500).json({error}))
+    .catch(error => response.status(500).json({ error }))
 })
+
+app.get('/api/v1/staff/:id', (request, response) => {
+  database('staff').where('id', request.params.id).select()
+    .then(staff => {
+      if (staff.length) {
+        response.status(200).json(staff)
+      } else {
+        response.status(404).json('No matches found')
+      }
+    })
+    .catch(error => response.status(500).json({ error }))
+})
+
 
 app.get('/api/v1/schedule', (request, response) => {
   database('staff_events').select()
     .then(schedule => response.status(200).json(schedule))
-    .catch(error => response.status(500).json({error}))
+    .catch(error => response.status(500).json({ error }))
 })
 
 app.post('/api/v1/staff', (request, response) => {
