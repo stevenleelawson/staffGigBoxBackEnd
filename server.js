@@ -29,7 +29,7 @@ app.get('/api/v1/staff', (request, response) => {
       response.status(200).json(staff)
     })
     .catch(error => {
-      response.status(500).json()
+      response.status(500).json({error})
     })
 })
 
@@ -39,8 +39,26 @@ app.get('/api/v1/events', (request, response) => {
       response.status(200).json(events)
     })
     .catch(error => {
-      response.status(500).json()
+      response.status(500).json({error})
     })
+})
+
+app.get('/api/v1/events/:id', (request, response) => {
+  database('events').where('id', request.params.id).select()
+    .then(event => {
+      if (event.length) {
+        response.status(200).json(event) 
+      } else {
+        response.status(404).json('No matches found')
+      }
+    })
+    .catch(error => response.status(500).json({error}))
+})
+
+app.get('/api/v1/schedule', (request, response) => {
+  database('staff_events').select()
+    .then(schedule => response.status(200).json(schedule))
+    .catch(error => response.status(500).json({error}))
 })
 
 app.post('/api/v1/staff', (request, response) => {
