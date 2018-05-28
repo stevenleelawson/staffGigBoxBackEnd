@@ -83,7 +83,7 @@ app.post('/api/v1/staff', (request, response) => {
     }
   }
 
-  database('staff').insert(staff, keys)
+  database('staff').insert(staff, [...keys, 'id'])
     .then(staff => {
       response.status(201).json(staff[0])
     })
