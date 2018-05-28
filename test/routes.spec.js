@@ -121,5 +121,80 @@ describe('API Routes', () => {
       })
   })
 
+  it('should POST a new schedule to the database', (done) => {
+    const staffEventObj = {
+      event_id: 2,
+      staff_id: 5
+    }
+
+    chai.request(app)
+      .post('/api/v1/schedule')
+      .send(staffEventObj)
+      .end((error, response) => {
+        response.should.be.json
+        response.should.have.status(201)
+        response.body.should.be.an('object')
+        response.body.should.have.property('id', 5)
+        response.body.should.have.property('event_id', 2)
+        response.body.should.have.property('staff_id', 5)
+        done()
+      })
+  })
+
+  it('POST schedule should return an error if required properties are missing', (done) => {
+    chai.request(app)
+      .post('/api/v1/schedule')
+      .send({ event_id: 2 })
+      .end((error, response) => {
+        response.should.be.json
+        response.should.have.status(422)
+        response.body.should.equal('You are missing a staff_id property')
+        done()
+      })
+  })
+
+  it('should DELETE an event from the database', (done) => {
+    chai.request(app)
+      .del('/api/v1/events/3')
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.body.should.be.an('string')
+        response.body.should.equal('Deleted event id: 3')
+        done()
+      })
+  })
+
+  it('should return an error message if event doesnt exist when trying to DELETE', (done) => {
+    chai.request(app)
+      .del('/api/v1/events/1711')
+      .end((error, response) => {
+        response.should.have.status(404)
+        response.body.should.be.an('string')
+        response.body.should.equal('Delete failed, event not found')
+        done()
+      })
+  })
+
+  it('should DELETE staff from the database', (done) => {
+    chai.request(app)
+      .del('/api/v1/staff/13')
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.body.should.be.an('string')
+        response.body.should.equal('Deleted staff id: 13')
+        done()
+      })
+  })
+
+  it('should return an error message if staff doesnt exist when trying to DELETE', (done) => {
+    chai.request(app)
+      .del('/api/v1/staff/1711')
+      .end((error, response) => {
+        response.should.have.status(404)
+        response.body.should.be.an('string')
+        response.body.should.equal('Delete failed, staff not found')
+        done()
+      })
+  })
 
 }); 
