@@ -19,9 +19,9 @@ app.use(function(req, res, next) {
 
 app.locals.title = 'Staff Gig Box';
 
-app.get('/', (request, response) => {
+// app.get('/', (request, response) => {
 
-});
+// });
 
 app.get('/api/v1/staff', (request, response) => {
   database('staff').select()
@@ -79,11 +79,7 @@ app.post('/api/v1/staff', (request, response) => {
   const keys = ['name', 'bartender', 'barback', 'bar_manager', 'ass_bar_manager', 'beer_bucket']
   for (let requiredParameter of keys) {
     if (staff[requiredParameter] === undefined) {
-      return response
-        .status(422)
-        .send({
-          error: `You are missing a ${requiredParameter} property`
-        })
+      return response.status(422).json(`You are missing a ${requiredParameter} property`)
     }
   }
 
@@ -101,15 +97,11 @@ app.post('/api/v1/events', (request, response) => {
   const keys = ['name', 'venue', 'date', 'time', 'bartenders', 'barbacks', 'bar_manager', 'ass_bar_manager', 'beer_bucket']
   for (let requiredParameter of keys) {
     if (events[requiredParameter] === undefined) {
-      return response
-        .status(422)
-        .send({
-          error: `You are missing a ${requiredParameter} property`
-        })
+      return response.status(422).json(`You are missing a ${requiredParameter} property`)
     }
   }
 
-  database('events').insert(events, keys)
+  database('events').insert(events, [...keys, 'id'])
     .then(events => {
       response.status(201).json(events[0])
     })
@@ -173,4 +165,4 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`)
 })
 
-module.exports = app;
+module.exports = { app, database };
