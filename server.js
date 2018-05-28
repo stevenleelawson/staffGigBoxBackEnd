@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
-
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
@@ -19,9 +18,6 @@ app.use(function(req, res, next) {
 
 app.locals.title = 'Staff Gig Box';
 
-app.get('/', (request, response) => {
-
-});
 
 app.get('/api/v1/staff', (request, response) => {
   database('staff').select()
@@ -77,17 +73,14 @@ app.get('/api/v1/schedule', (request, response) => {
 app.post('/api/v1/staff', (request, response) => {
   const staff = request.body;
   const keys = ['name', 'bartender', 'barback', 'bar_manager', 'ass_bar_manager', 'beer_bucket']
+
   for (let requiredParameter of keys) {
     if (staff[requiredParameter] === undefined) {
-      return response
-        .status(422)
-        .send({
-          error: `You are missing a ${requiredParameter} property`
-        })
+      response.status(422).json(`You are missing a ${requiredParameter} property`)
     }
   }
 
-  database('staff').insert(staff, keys)
+  database('staff').insert(staff, [...keys, 'id'])
     .then(staff => {
       response.status(201).json(staff[0])
     })
@@ -99,17 +92,14 @@ app.post('/api/v1/staff', (request, response) => {
 app.post('/api/v1/events', (request, response) => {
   const events = request.body;
   const keys = ['name', 'venue', 'date', 'time', 'bartenders', 'barbacks', 'bar_manager', 'ass_bar_manager', 'beer_bucket']
+  
   for (let requiredParameter of keys) {
     if (events[requiredParameter] === undefined) {
-      return response
-        .status(422)
-        .send({
-          error: `You are missing a ${requiredParameter} property`
-        })
+      response.status(422).json(`You are missing a ${requiredParameter} property`)
     }
   }
 
-  database('events').insert(events, keys)
+  database('events').insert(events, [...keys, 'id'])
     .then(events => {
       response.status(201).json(events[0])
     })
@@ -122,9 +112,9 @@ app.delete('/api/v1/staff/:id', (request, response) => {
   database('staff').where('id', request.params.id).del()
     .then(staff => {
       if (staff) {
-        response.status(200).json(`Deleted ${request.params.id}`)
+        response.status(200).json(`Deleted staff id: ${request.params.id}`)
       } else {
-        response.status(404).json(`Delete failed, Id not found`)
+        response.status(404).json(`Delete failed, staff not found`)
       }
     })
     .catch(error => {
@@ -136,9 +126,9 @@ app.delete('/api/v1/events/:id', (request, response) => {
   database('events').where('id', request.params.id).del()
     .then(events => {
       if (events) {
-        response.status(200).json(`Deleted ${request.params.id}`)
+        response.status(200).json(`Deleted event id: ${request.params.id}`)
       } else {
-        response.status(404).json(`Delete failed, Id not found`)
+        response.status(404).json(`Delete failed, event not found`)
       }
     })
     .catch(error => {
@@ -150,17 +140,14 @@ app.post('/api/v1/schedule', (request, response) => {
 
   const schedule = request.body;
   const keys = ['event_id', 'staff_id']
+
   for (let requiredParameter of keys) {
     if (schedule[requiredParameter] === undefined) {
-      return response
-        .status(422)
-        .send({
-          error: `You are missing a ${requiredParameter} property`
-        })
+      response.status(422).json(`You are missing a ${requiredParameter} property`)
     }
   }
 
-  database('staff_events').insert(schedule, keys)
+  database('staff_events').insert(schedule, [...keys, 'id'])
     .then(schedule => {
       response.status(201).json(schedule[0])
     })
@@ -173,4 +160,4 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`)
 })
 
-module.exports = app;
+module.exports = { app, database };
