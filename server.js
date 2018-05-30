@@ -136,7 +136,7 @@ app.delete('/api/v1/events/:id', (request, response) => {
     })
 })
 
-app.delete('/api/v1/staff_events/:id', (request, response) => {
+app.delete('/api/v1/schedule/:id', (request, response) => {
   database('staff_events').where('staff_id', request.params.id).del()
     .then(staff_event => {
       if (staff_event) {
