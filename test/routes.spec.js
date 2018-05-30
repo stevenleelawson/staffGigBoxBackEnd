@@ -278,18 +278,18 @@ describe('API Routes', () => {
       })
   })
 
-  it('should delete a staff_id from the database', (done) => {
+  it('should delete a staff_events_id from the database', (done) => {
     chai.request(app)
       .del('/api/v1/schedule/3')
       .end((error, response) => {
         response.should.have.status(200)
         response.body.should.be.an('string')
-        response.body.should.equal('Deleted staff_event id: 3')
+        response.body.should.equal('Deleted staff_events id: 3')
         done()
       })
   })
 
-  it('should return an error message if staff_id doesnt exist when trying to DELETE', (done) => {
+  it('should return an error message if staff_events_id doesnt exist when trying to DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/schedule/1711')
       .end((error, response) => {
