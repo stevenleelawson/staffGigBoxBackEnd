@@ -280,7 +280,7 @@ describe('API Routes', () => {
 
   it('should delete a staff_id from the database', (done) => {
     chai.request(app)
-      .del('/api/v1/staff_events/3')
+      .del('/api/v1/schedule/3')
       .end((error, response) => {
         response.should.have.status(200)
         response.body.should.be.an('string')
@@ -291,7 +291,7 @@ describe('API Routes', () => {
 
   it('should return an error message if staff_id doesnt exist when trying to DELETE', (done) => {
     chai.request(app)
-      .del('/api/v1/staff_events/1711')
+      .del('/api/v1/schedule/1711')
       .end((error, response) => {
         response.should.have.status(404)
         response.body.should.be.an('string')
