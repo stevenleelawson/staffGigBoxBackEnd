@@ -43,7 +43,7 @@ app.get('/api/v1/events/:id', (request, response) => {
   database('events').where('id', request.params.id).select()
     .then(event => {
       if (event.length) {
-        response.status(200).json(event) 
+        response.status(200).json(event)
       } else {
         response.status(404).json('No matches found')
       }
@@ -92,7 +92,7 @@ app.post('/api/v1/staff', (request, response) => {
 app.post('/api/v1/events', (request, response) => {
   const events = request.body;
   const keys = ['name', 'venue', 'date', 'time', 'bartenders', 'barbacks', 'bar_manager', 'ass_bar_manager', 'beer_bucket']
-  
+
   for (let requiredParameter of keys) {
     if (events[requiredParameter] === undefined) {
       response.status(422).json(`You are missing a ${requiredParameter} property`)
@@ -135,6 +135,17 @@ app.delete('/api/v1/events/:id', (request, response) => {
       response.status(500).json({error})
     })
 })
+
+app.delete('/api/v1/staff_events/:id', (request, response) => {
+  database('staff_events').where('staff_id', request.params.id).del()
+    .then(staff_event => {
+      if (staff_event) {
+        response.status(200).json(`Deleted staff_event id: ${request.params.id}`)
+      } else {
+        response.status(404).json('Delete failed, staff_event id not found')
+      }
+    })
+});
 
 app.post('/api/v1/schedule', (request, response) => {
 
