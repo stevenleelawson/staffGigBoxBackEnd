@@ -22,7 +22,7 @@ describe('Client Routes', () => {
       .then(response => {
         response.should.have.status(404);
         done()
-      })  
+      })
   })
 });
 
@@ -32,6 +32,98 @@ describe('API Routes', () => {
     await database.migrate.rollback()
     await database.migrate.latest()
     await database.seed.run()
+  })
+
+  it('should GET all the staff', (done) => {
+    chai.request(app)
+      .get('/api/v1/staff')
+      .end( (error, response) => {
+        response.should.be.json;
+        response.should.have.status(200);
+        response.body[0].should.be.an('object');
+        response.body[0].should.have.property('id', 1);
+        response.body[0].should.have.property('name', 'Hottrod');
+        response.body[0].should.have.property('bartender', true);
+        response.body[0].should.have.property('barback', false);
+        response.body[0].should.have.property('bar_manager', false);
+        response.body[0].should.have.property('ass_bar_manager', true);
+        response.body[0].should.have.property('beer_bucket', false);
+        done()
+      })
+  });
+
+  it('should GET all the staff by a specific id', (done) => {
+    chai.request(app)
+      .get('/api/v1/staff/1')
+      .end( (error, response) => {
+        response.should.be.json;
+        response.should.have.status(200);
+        response.body[0].should.be.an('object');
+        response.body[0].should.have.property('id', 1);
+        response.body[0].should.have.property('name', 'Hottrod');
+        response.body[0].should.have.property('bartender', true);
+        response.body[0].should.have.property('barback', false);
+        response.body[0].should.have.property('bar_manager', false);
+        response.body[0].should.have.property('ass_bar_manager', true);
+        response.body[0].should.have.property('beer_bucket', false);
+        done()
+      })
+  });
+
+  it('should GET all the events', (done) => {
+    chai.request(app)
+      .get('/api/v1/events')
+      .end( (error, response) => {
+        response.should.be.json;
+        response.should.have.status(200);
+        response.body[0].should.be.an('object');
+        response.body[0].should.have.property('id', 1);
+        response.body[0].should.have.property('venue', 'Gothic');
+        response.body[0].should.have.property('name', 'Sparklehorse');
+        response.body[0].should.have.property('date', '05/16/18');
+        response.body[0].should.have.property('time', '7:00 pm');
+        response.body[0].should.have.property('bartenders', 4);
+        response.body[0].should.have.property('barbacks', 1);
+        response.body[0].should.have.property('bar_manager', true);
+        response.body[0].should.have.property('ass_bar_manager', false);
+        response.body[0].should.have.property('beer_bucket', false);
+        done()
+      })
+  });
+
+  it('should GET an event by id', (done) => {
+    chai.request(app)
+      .get('/api/v1/events/1')
+      .end( (error, response) => {
+        response.should.be.json;
+        response.should.have.status(200);
+        response.body[0].should.be.an('object');
+        response.body[0].should.have.property('id', 1);
+        response.body[0].should.have.property('venue', 'Gothic');
+        response.body[0].should.have.property('name', 'Sparklehorse');
+        response.body[0].should.have.property('date', '05/16/18');
+        response.body[0].should.have.property('time', '7:00 pm');
+        response.body[0].should.have.property('bartenders', 4);
+        response.body[0].should.have.property('barbacks', 1);
+        response.body[0].should.have.property('bar_manager', true);
+        response.body[0].should.have.property('ass_bar_manager', false);
+        response.body[0].should.have.property('beer_bucket', false);
+        done()
+      })
+  });
+
+  it('should get all the schedules', (done) => {
+    chai.request(app)
+      .get('/api/v1/schedule')
+      .end((error, response) => {
+        response.should.be.json;
+        response.should.have.status(200);
+        response.body[0].should.be.an('object');
+        response.body[0].should.have.property('staff_id', 1);
+        response.body[0].should.have.property('event_id', 1);
+        response.body[0].should.have.property('id', 1);
+        done()
+      })
   })
 
   it('should POST a new event to the database', (done) => {
@@ -186,6 +278,28 @@ describe('API Routes', () => {
       })
   })
 
+  it('should delete a staff_id from the database', (done) => {
+    chai.request(app)
+      .del('/api/v1/staff_events/3')
+      .end((error, response) => {
+        response.should.have.status(200)
+        response.body.should.be.an('string')
+        response.body.should.equal('Deleted staff_event id: 3')
+        done()
+      })
+  })
+
+  it('should return an error message if staff_id doesnt exist when trying to DELETE', (done) => {
+    chai.request(app)
+      .del('/api/v1/staff_events/1711')
+      .end((error, response) => {
+        response.should.have.status(404)
+        response.body.should.be.an('string')
+        response.body.should.equal('Delete failed, staff_event id not found')
+        done()
+      })
+  })
+
   it('should return an error message if staff doesnt exist when trying to DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/staff/1711')
@@ -197,4 +311,4 @@ describe('API Routes', () => {
       })
   })
 
-}); 
+});
