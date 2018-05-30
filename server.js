@@ -9,6 +9,7 @@ const database = require('knex')(configuration);
 app.set('port', process.env.PORT || 3000);
 
 app.use(bodyParser.json());
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -167,6 +168,31 @@ app.post('/api/v1/schedule', (request, response) => {
     })
 });
 
+app.put('/api/v1/schedule/:id', (request, response) => {
+  const schedule = request.body;
+  console.log('put response', request)
+  const keys = ['event_id', 'staff_id']
+
+  for (let requiredParameter of keys) {
+    if (schedule[requiredParameter] === undefined) {
+      response.status(422).json(`You are missing a ${requiredParameter} property`)
+    }
+  }
+
+  database('staff_events').where('id', request.params.id)
+    .update(schedule)
+    .returning('*')
+    .then(schedule => {
+      if (!schedule.length) {
+        return response.status(404).json('ID does not exist')
+      } else {
+        return response.status(201).json(schedule[0])
+      }
+    })
+    .catch(error => {
+      response.status(500).json('Internal server error' + error)
+    })
+})
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`)
 })
