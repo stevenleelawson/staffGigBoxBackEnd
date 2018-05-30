@@ -137,7 +137,7 @@ app.delete('/api/v1/events/:id', (request, response) => {
 })
 
 app.delete('/api/v1/schedule/:id', (request, response) => {
-  database('staff_events').where('staff_id', request.params.id).del()
+  database('staff_events').where('id', request.params.id).del()
     .then(staff_event => {
       if (staff_event) {
         response.status(200).json(`Deleted staff_event id: ${request.params.id}`)
