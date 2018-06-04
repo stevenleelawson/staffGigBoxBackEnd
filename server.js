@@ -79,7 +79,7 @@ app.get('/api/v1/schedule', (request, response) => {
       })
       .catch(error => response.status(500)
         .json('Internal server error ' + error));
-      
+
   } else {
     database('staff_events').select()
       .then(schedule => response.status(200).json(schedule))
@@ -208,6 +208,7 @@ app.put('/api/v1/schedule/:id', (request, response) => {
       response.status(500).json('Internal server error' + error)
     })
 })
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`)
 })
