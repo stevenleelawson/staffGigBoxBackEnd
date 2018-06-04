@@ -42,10 +42,10 @@ describe('API Routes', () => {
         response.should.have.status(200);
         response.body[0].should.be.an('object');
         response.body[0].should.have.property('id', 1);
-        response.body[0].should.have.property('name', 'Hottrod');
+        response.body[0].should.have.property('name', 'TK');
         response.body[0].should.have.property('bartender', true);
         response.body[0].should.have.property('barback', false);
-        response.body[0].should.have.property('bar_manager', false);
+        response.body[0].should.have.property('bar_manager', true);
         response.body[0].should.have.property('ass_bar_manager', true);
         response.body[0].should.have.property('beer_bucket', false);
         done()
@@ -60,10 +60,10 @@ describe('API Routes', () => {
         response.should.have.status(200);
         response.body[0].should.be.an('object');
         response.body[0].should.have.property('id', 1);
-        response.body[0].should.have.property('name', 'Hottrod');
+        response.body[0].should.have.property('name', 'TK');
         response.body[0].should.have.property('bartender', true);
         response.body[0].should.have.property('barback', false);
-        response.body[0].should.have.property('bar_manager', false);
+        response.body[0].should.have.property('bar_manager', true);
         response.body[0].should.have.property('ass_bar_manager', true);
         response.body[0].should.have.property('beer_bucket', false);
         done()
