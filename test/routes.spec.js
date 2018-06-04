@@ -6,15 +6,6 @@ const { app, database } = require('../server');
 chai.use(chaiHttp);
 
 describe('Client Routes', () => {
-  // it('should return the homepage', (done) => {
-  //   chai.request(app)
-  //     .get('/')
-  //     .then(response => {
-  //       response.should.have.status(200);
-  //       response.should.be.html;
-  //       done()
-  //     })
-  // });
 
   it('should return a 404 for a route that doesnt exist', (done) => {
     chai.request(app)
@@ -265,7 +256,25 @@ describe('API Routes', () => {
       })
   })
 
-  it('The schedule PUT should return an error if imissing required params', (done) => {
+  it('should return an error if incorrect id for schedule PUT', (done) => {
+    const staffEventObj = {
+      event_id: 2,
+      staff_id: 5
+    }
+
+    chai.request(app)
+      .put('/api/v1/schedule/-1')
+      .send(staffEventObj)
+      .end((error, response) => {
+        response.should.be.json
+        response.should.have.status(404)
+        response.body.should.be.an('string')
+        response.body.should.equal('ID does not exist')
+        done()
+      }) 
+  })
+
+  it('The schedule PUT should return an error if missing required params', (done) => {
 
     chai.request(app)
       .put('/api/v1/schedule/1')
