@@ -6,15 +6,6 @@ const { app, database } = require('../server');
 chai.use(chaiHttp);
 
 describe('Client Routes', () => {
-  // it('should return the homepage', (done) => {
-  //   chai.request(app)
-  //     .get('/')
-  //     .then(response => {
-  //       response.should.have.status(200);
-  //       response.should.be.html;
-  //       done()
-  //     })
-  // });
 
   it('should return a 404 for a route that doesnt exist', (done) => {
     chai.request(app)
@@ -42,10 +33,10 @@ describe('API Routes', () => {
         response.should.have.status(200);
         response.body[0].should.be.an('object');
         response.body[0].should.have.property('id', 1);
-        response.body[0].should.have.property('name', 'Hottrod');
+        response.body[0].should.have.property('name', 'TK');
         response.body[0].should.have.property('bartender', true);
         response.body[0].should.have.property('barback', false);
-        response.body[0].should.have.property('bar_manager', false);
+        response.body[0].should.have.property('bar_manager', true);
         response.body[0].should.have.property('ass_bar_manager', true);
         response.body[0].should.have.property('beer_bucket', false);
         done()
@@ -60,10 +51,10 @@ describe('API Routes', () => {
         response.should.have.status(200);
         response.body[0].should.be.an('object');
         response.body[0].should.have.property('id', 1);
-        response.body[0].should.have.property('name', 'Hottrod');
+        response.body[0].should.have.property('name', 'TK');
         response.body[0].should.have.property('bartender', true);
         response.body[0].should.have.property('barback', false);
-        response.body[0].should.have.property('bar_manager', false);
+        response.body[0].should.have.property('bar_manager', true);
         response.body[0].should.have.property('ass_bar_manager', true);
         response.body[0].should.have.property('beer_bucket', false);
         done()
@@ -245,6 +236,58 @@ describe('API Routes', () => {
       })
   })
 
+  it('should update a schedule in the database with a PUT', (done) => {
+    const staffEventObj = {
+      event_id: 2,
+      staff_id: 5
+    }
+
+    chai.request(app)
+      .put('/api/v1/schedule/1')
+      .send(staffEventObj)
+      .end((error, response) => {
+        response.should.be.json
+        response.should.have.status(201)
+        response.body.should.be.an('object')
+        response.body.should.have.property('id', 1)
+        response.body.should.have.property('event_id', 2)
+        response.body.should.have.property('staff_id', 5)
+        done()
+      })
+  })
+
+  it('should return an error if incorrect id for schedule PUT', (done) => {
+    const staffEventObj = {
+      event_id: 2,
+      staff_id: 5
+    }
+
+    chai.request(app)
+      .put('/api/v1/schedule/-1')
+      .send(staffEventObj)
+      .end((error, response) => {
+        response.should.be.json
+        response.should.have.status(404)
+        response.body.should.be.an('string')
+        response.body.should.equal('ID does not exist')
+        done()
+      }) 
+  })
+
+  it('The schedule PUT should return an error if missing required params', (done) => {
+
+    chai.request(app)
+      .put('/api/v1/schedule/1')
+      .send()
+      .end((error, response) => {
+        response.should.be.json
+        response.should.have.status(422)
+        response.body.should.be.an('string')
+        response.body.should.equal('You are missing a event_id property')
+        done()
+      })
+  })
+
   it('should DELETE an event from the database', (done) => {
     chai.request(app)
       .del('/api/v1/events/3')
@@ -284,7 +327,7 @@ describe('API Routes', () => {
       .end((error, response) => {
         response.should.have.status(200)
         response.body.should.be.an('string')
-        response.body.should.equal('Deleted staff_events id: 3')
+        response.body.should.equal('Deleted staff_event id: 3')
         done()
       })
   })
