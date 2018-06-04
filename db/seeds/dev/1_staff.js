@@ -23,6 +23,15 @@ exports.seed = function(knex, Promise) {
 
         },
         {
+          name: 'Steven',
+          bartender: true,
+          barback: false,
+          bar_manager: true,
+          ass_bar_manager: false,
+          beer_bucket: false,
+          google_id: '2HYCRfboJ0SlHJj9RouApgmSoxL2'
+        },
+        {
           name: 'Chrissy',
           bartender:true,
           barback: false,
