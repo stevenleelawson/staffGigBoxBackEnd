@@ -167,7 +167,7 @@ app.delete('/api/v1/schedule/:id', (request, response) => {
 
 app.post('/api/v1/schedule', (request, response) => {
   const schedule = request.body;
-  const keys = ['event_id', 'staff_id']
+  const keys = ['event_id', 'staff_id', 'role']
 
   for (let requiredParameter of keys) {
     if (schedule[requiredParameter] === undefined) {

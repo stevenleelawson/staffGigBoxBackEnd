@@ -207,7 +207,8 @@ describe('API Routes', () => {
   it('should POST a new schedule to the database', (done) => {
     const staffEventObj = {
       event_id: 2,
-      staff_id: 5
+      staff_id: 5,
+      role: 'Bartender'
     }
 
     chai.request(app)
@@ -217,9 +218,10 @@ describe('API Routes', () => {
         response.should.be.json
         response.should.have.status(201)
         response.body.should.be.an('object')
-        response.body.should.have.property('id', 5)
+        response.body.should.have.property('id', 7)
         response.body.should.have.property('event_id', 2)
         response.body.should.have.property('staff_id', 5)
+        response.body.should.have.property('role', 'Bartender')
         done()
       })
   })

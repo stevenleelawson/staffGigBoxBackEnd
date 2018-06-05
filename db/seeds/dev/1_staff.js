@@ -16,7 +16,7 @@ exports.seed = function(knex, Promise) {
           name: 'Jared',
           bartender: true,
           barback: false,
-          bar_manager: false,
+          bar_manager: true,
           ass_bar_manager: true,
           beer_bucket: false,
           google_id: '1pLSNLEaSVT7hvRa5q4Vyy37IIN2'
