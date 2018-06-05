@@ -1,5 +1,5 @@
 const chai = require('chai');
-const should = chai.should();
+const should = chai.should(); // eslint-disable-line
 const chaiHttp = require('chai-http');
 const { app, database } = require('../server');
 
@@ -151,7 +151,7 @@ describe('API Routes', () => {
       })
   })
 
-  it('POST event should return an error if required properties are missing', (done) => {
+  it('POST if req props are missing', (done) => {
     chai.request(app)
       .post('/api/v1/events')
       .send({ name: 'Billy Prince Billy' })
@@ -192,7 +192,7 @@ describe('API Routes', () => {
       })
   })
 
-  it('POST staff should return an error if required properties are missing', (done) => {
+  it('POST staff error if req props are missing', (done) => {
     chai.request(app)
       .post('/api/v1/staff')
       .send({ name: 'Jared' })
@@ -207,7 +207,7 @@ describe('API Routes', () => {
   it('should POST a new schedule to the database', (done) => {
     const staffEventObj = {
       event_id: 2,
-      staff_id: 5,
+      staff_id: 7,
       role: 'Bartender'
     }
 
@@ -220,13 +220,13 @@ describe('API Routes', () => {
         response.body.should.be.an('object')
         response.body.should.have.property('id', 7)
         response.body.should.have.property('event_id', 2)
-        response.body.should.have.property('staff_id', 5)
+        response.body.should.have.property('staff_id', 7)
         response.body.should.have.property('role', 'Bartender')
         done()
       })
   })
 
-  it('POST schedule should return an error if required properties are missing', (done) => {
+  it('POST schedule error if req props are missing', (done) => {
     chai.request(app)
       .post('/api/v1/schedule')
       .send({ event_id: 2 })
@@ -234,58 +234,6 @@ describe('API Routes', () => {
         response.should.be.json
         response.should.have.status(422)
         response.body.should.equal('You are missing a staff_id property')
-        done()
-      })
-  })
-
-  it('should update a schedule in the database with a PUT', (done) => {
-    const staffEventObj = {
-      event_id: 2,
-      staff_id: 5
-    }
-
-    chai.request(app)
-      .put('/api/v1/schedule/1')
-      .send(staffEventObj)
-      .end((error, response) => {
-        response.should.be.json
-        response.should.have.status(201)
-        response.body.should.be.an('object')
-        response.body.should.have.property('id', 1)
-        response.body.should.have.property('event_id', 2)
-        response.body.should.have.property('staff_id', 5)
-        done()
-      })
-  })
-
-  it('should return an error if incorrect id for schedule PUT', (done) => {
-    const staffEventObj = {
-      event_id: 2,
-      staff_id: 5
-    }
-
-    chai.request(app)
-      .put('/api/v1/schedule/-1')
-      .send(staffEventObj)
-      .end((error, response) => {
-        response.should.be.json
-        response.should.have.status(404)
-        response.body.should.be.an('string')
-        response.body.should.equal('ID does not exist')
-        done()
-      }) 
-  })
-
-  it('The schedule PUT should return an error if missing required params', (done) => {
-
-    chai.request(app)
-      .put('/api/v1/schedule/1')
-      .send()
-      .end((error, response) => {
-        response.should.be.json
-        response.should.have.status(422)
-        response.body.should.be.an('string')
-        response.body.should.equal('You are missing a event_id property')
         done()
       })
   })
@@ -301,7 +249,7 @@ describe('API Routes', () => {
       })
   })
 
-  it('should return an error message if event doesnt exist when trying to DELETE', (done) => {
+  it('should error message if !event when trying to DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/events/1711')
       .end((error, response) => {
@@ -323,7 +271,7 @@ describe('API Routes', () => {
       })
   })
 
-  it('should delete a staff_events_id from the database', (done) => {
+  it('should delete a staff_id from the database', (done) => {
     chai.request(app)
       .del('/api/v1/schedule/3')
       .end((error, response) => {
@@ -334,7 +282,7 @@ describe('API Routes', () => {
       })
   })
 
-  it('should return an error message if staff_events_id doesnt exist when trying to DELETE', (done) => {
+  it('should error if !staff_id when trying to DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/schedule/1711')
       .end((error, response) => {
@@ -345,7 +293,7 @@ describe('API Routes', () => {
       })
   })
 
-  it('should return an error message if staff doesnt exist when trying to DELETE', (done) => {
+  it('should error if !staff when trying to DELETE', (done) => {
     chai.request(app)
       .del('/api/v1/staff/1711')
       .end((error, response) => {
