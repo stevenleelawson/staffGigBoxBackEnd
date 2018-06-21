@@ -25,17 +25,17 @@ exports.seed = function(knex, Promise) {
           ass_bar_manager: false,
           beer_bucket: false
         },
-        // {
-        //   venue: 'Ogden',
-        //   name: 'Billy Prince Billy',
-        //   date: '05/12/18',
-        //   time: '6:00 pm',
-        //   bartenders: 8,
-        //   barbacks: 2,
-        //   bar_manager: true,
-        //   ass_bar_manager: true,
-        //   beer_bucket: true
-        // }
+        {
+          venue: 'Ogden',
+          name: 'Billy Prince Billy',
+          date: '05/12/18',
+          time: '6:00 pm',
+          bartenders: 8,
+          barbacks: 2,
+          bar_manager: true,
+          ass_bar_manager: true,
+          beer_bucket: true
+        }
       ]);
     });
 };

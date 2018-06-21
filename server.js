@@ -232,6 +232,12 @@ app.put('/api/v1/schedule/:id', (request, response) => {
     });
 });
 
+app.get('/api/v1/availability', (request, response) => {
+  database('availability').select()
+    .then(availability => response.status(200).json(availability))
+    .catch(error => response.status(500).json('Internal server error'))
+})
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`); // eslint-disable-line
 });
