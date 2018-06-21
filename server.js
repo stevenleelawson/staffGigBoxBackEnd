@@ -193,17 +193,13 @@ app.post('/api/v1/schedule', (request, response) => {
   for (let requiredParameter of keys) {
     if (schedule[requiredParameter] === undefined) {
       response.status(422)
-      .json(`You are missing a ${requiredParameter} property`);
+      .json(`You are missing a ${ requiredParameter } property`);
     }
   }
 
   database('staff_events').insert(schedule, [...keys, 'id'])
-    .then(schedule => {
-      response.status(201).json(schedule[0]);
-    })
-    .catch(error => {
-      response.status(500).json({error});
-    });
+    .then(schedule => response.status(201).json(schedule[0]))
+    .catch(error => response.status(500).json({ error }))
 });
 
 app.put('/api/v1/schedule/:id', (request, response) => {
@@ -213,7 +209,7 @@ app.put('/api/v1/schedule/:id', (request, response) => {
   for (let requiredParameter of keys) {
     if (schedule[requiredParameter] === undefined) {
       response.status(422)
-      .json(`You are missing a ${requiredParameter} property`);
+      .json(`You are missing a ${ requiredParameter } property`);
     }
   }
 
@@ -236,6 +232,22 @@ app.get('/api/v1/availability', (request, response) => {
   database('availability').select()
     .then(availability => response.status(200).json(availability))
     .catch(error => response.status(500).json('Internal server error'))
+})
+
+app.post('/api/v1/availability', (request, response) => {
+  const availability = request.body;
+  const keys = ['staff_id', 'date_unavailable'];
+
+  for (let requiredParameter of keys) {
+    if (availability[requiredParameter] === undefined) {
+      response.status(422)
+      .json(`You are missing a ${requiredParameter} property`);
+    }
+  }
+  console.log(availability)
+  database('availability').insert(availability, [...keys, 'id'])
+    .then(availability => response.status(201).json(availability[0]))
+    .catch(error => response.status(500).json({ error }))
 })
 
 app.listen(app.get('port'), () => {
