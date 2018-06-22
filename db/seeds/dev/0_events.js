@@ -19,7 +19,7 @@ exports.seed = function(knex, Promise) {
           name: 'Slim Cessna',
           date: '05/02/18',
           time: '8:00 pm',
-          bartenders: 4,
+          bartenders: 3,
           barbacks: 1,
           bar_manager: true,
           ass_bar_manager: false,

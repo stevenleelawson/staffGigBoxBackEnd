@@ -193,17 +193,13 @@ app.post('/api/v1/schedule', (request, response) => {
   for (let requiredParameter of keys) {
     if (schedule[requiredParameter] === undefined) {
       response.status(422)
-      .json(`You are missing a ${requiredParameter} property`);
+      .json(`You are missing a ${ requiredParameter } property`);
     }
   }
 
   database('staff_events').insert(schedule, [...keys, 'id'])
-    .then(schedule => {
-      response.status(201).json(schedule[0]);
-    })
-    .catch(error => {
-      response.status(500).json({error});
-    });
+    .then(schedule => response.status(201).json(schedule[0]))
+    .catch(error => response.status(500).json({ error }))
 });
 
 app.put('/api/v1/schedule/:id', (request, response) => {
@@ -213,7 +209,7 @@ app.put('/api/v1/schedule/:id', (request, response) => {
   for (let requiredParameter of keys) {
     if (schedule[requiredParameter] === undefined) {
       response.status(422)
-      .json(`You are missing a ${requiredParameter} property`);
+      .json(`You are missing a ${ requiredParameter } property`);
     }
   }
 
@@ -231,6 +227,67 @@ app.put('/api/v1/schedule/:id', (request, response) => {
       response.status(500).json('Internal server error' + error);
     });
 });
+
+app.get('/api/v1/availability', (request, response) => {
+  const { staff_id, date_unavailable } = request.query
+
+  if ( staff_id && !date_unavailable ) {
+    database('availability').where({ staff_id }).select()
+      .then(availability => {
+        if ( availability.length ) {
+          return response.status(200).json(availability)
+        } else {
+          return response.status(404).json(false)
+        }
+      })
+      .catch(error => response.status(500).json({ error }))
+  } else if ( staff_id && date_unavailable ) {
+    database('availability').where({ staff_id, date_unavailable }).select()
+      .then(availability => {
+        if ( availability.length ) {
+          return response.status(200).json(availability)
+        } else {
+          return response.status(404).json(false)
+        }
+      })
+      .catch(error => response.status(500).json({ error }))
+  } else {
+    database('availability').select()
+      .then(availability => response.status(200).json(availability))
+      .catch(error => response.status(500).json('Internal server error'))   
+  }
+})
+
+
+
+app.post('/api/v1/availability', (request, response) => {
+  const availability = request.body;
+  const keys = ['staff_id', 'date_unavailable'];
+
+  for (let requiredParameter of keys) {
+    if (availability[requiredParameter] === undefined) {
+      response.status(422)
+      .json(`You are missing a ${requiredParameter} property`);
+    }
+  }
+
+  database('availability').insert(availability, [...keys, 'id'])
+    .then(availability => response.status(201).json(availability[0]))
+    .catch(error => response.status(500).json({ error }))
+})
+
+app.delete('/api/v1/availability', (request, response) => {
+  const { staff_id, date_unavailable } = request.query
+
+  database('availability').where({ staff_id, date_unavailable }).del()
+    .then(date => {
+      if (date) {
+        response.status(200).json(true)
+      } else {
+        response.status(404).json(false)
+      }})
+    .catch(error => response.status(500).json('Internal server error'))
+})
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`); // eslint-disable-line
