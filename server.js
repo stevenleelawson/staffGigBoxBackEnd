@@ -229,10 +229,47 @@ app.put('/api/v1/schedule/:id', (request, response) => {
 });
 
 app.get('/api/v1/availability', (request, response) => {
-  database('availability').select()
-    .then(availability => response.status(200).json(availability))
-    .catch(error => response.status(500).json('Internal server error'))
+  const { staff_id } = request.query
+
+  if ( staff_id ) {
+    database('availability').where('staff_id', staff_id).select()
+      .then(availability => {
+        if ( availability.length ) {
+          return response.status(200).json(availability)
+        } else {
+          return response.status(404).json('No matches found')
+        }
+      })
+      .catch(error => response.status(500).json({ error }))
+  } else {
+    database('availability').select()
+      .then(availability => response.status(200).json(availability))
+      .catch(error => response.status(500).json('Internal server error'))   
+  }
 })
+
+// app.get('/api/v1/schedule', (request, response) => {
+//   const { event_id } = request.query;
+
+//   if ( event_id ) {
+//     database('staff_events').where('event_id', event_id).select()
+//       .then(schedule => {
+//         if (schedule.length) {
+//           return response.status(200).json(schedule);
+//         } else {
+//           return response.status(404).json('No matches found');
+//         }
+//       })
+//       .catch(error => response.status(500)
+//         .json('Internal server error ' + error));
+
+//   } else {
+//     database('staff_events').select()
+//       .then(schedule => response.status(200).json(schedule))
+//       .catch(error => response.status(500).json({ error }));
+//   }
+
+// });
 
 app.post('/api/v1/availability', (request, response) => {
   const availability = request.body;
