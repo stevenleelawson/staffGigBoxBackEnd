@@ -237,7 +237,7 @@ app.get('/api/v1/availability', (request, response) => {
         if ( availability.length ) {
           return response.status(200).json(availability)
         } else {
-          return response.status(404).json('No matches found')
+          return response.status(404).json(false)
         }
       })
       .catch(error => response.status(500).json({ error }))
@@ -248,28 +248,7 @@ app.get('/api/v1/availability', (request, response) => {
   }
 })
 
-// app.get('/api/v1/schedule', (request, response) => {
-//   const { event_id } = request.query;
 
-//   if ( event_id ) {
-//     database('staff_events').where('event_id', event_id).select()
-//       .then(schedule => {
-//         if (schedule.length) {
-//           return response.status(200).json(schedule);
-//         } else {
-//           return response.status(404).json('No matches found');
-//         }
-//       })
-//       .catch(error => response.status(500)
-//         .json('Internal server error ' + error));
-
-//   } else {
-//     database('staff_events').select()
-//       .then(schedule => response.status(200).json(schedule))
-//       .catch(error => response.status(500).json({ error }));
-//   }
-
-// });
 
 app.post('/api/v1/availability', (request, response) => {
   const availability = request.body;
@@ -281,10 +260,24 @@ app.post('/api/v1/availability', (request, response) => {
       .json(`You are missing a ${requiredParameter} property`);
     }
   }
-  console.log(availability)
+  
   database('availability').insert(availability, [...keys, 'id'])
     .then(availability => response.status(201).json(availability[0]))
     .catch(error => response.status(500).json({ error }))
+})
+
+app.delete('/api/v1/availability', (request, response) => {
+  // console.log(request.query)
+  const { staff_id, date_unavailable } = request.query
+  database('availability').where({ staff_id, date_unavailable }).del()
+    .then(date => {
+      console.log(date)
+      if (date) {
+        response.status(200).json(true)
+      } else {
+        response.status(404).json(false)
+      }})
+  // console.log(request.params)
 })
 
 app.listen(app.get('port'), () => {
