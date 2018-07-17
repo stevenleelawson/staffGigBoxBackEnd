@@ -32,13 +32,23 @@ app.get('/api/v1/staff', (request, response) => {
 });
 
 app.get('/api/v1/events', (request, response) => {
-  database('events').select()
-    .then(events => {
-      response.status(200).json(events);
-    })
-    .catch(error => {
-      response.status(500).json({error});
-    });
+  const { date } = request.query
+
+  if (date) {
+    database('events').where({ date }).select()
+      .then(events => {
+        if (events.length) {
+          response.status(200).json(events)
+        } else {
+          response.status(404).json('no events found')
+        }
+      })
+      .catch(error => response.status(500).json({ error }))
+  } else {
+    database('events').select()
+      .then(events => response.status(200).json(events))
+      .catch(error => response.status(500).json({ error }))
+  }
 });
 
 app.get('/api/v1/events/:id', (request, response) => {
