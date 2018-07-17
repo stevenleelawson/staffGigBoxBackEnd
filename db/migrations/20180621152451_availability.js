@@ -1,6 +1,7 @@
 
 exports.up = function(knex, Promise) {
 	return Promise.all([
+
 	  knex.schema.createTable('availability', (table) => {
 	  	table.increments('id').primary()
 	  	table.integer('staff_id').references('staff.id')
@@ -13,6 +14,6 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-  	knex.schema.dropTable('availability')
+  	knex.schema.dropTable('availability'),
   ])
 };

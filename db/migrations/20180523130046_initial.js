@@ -32,6 +32,9 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary();
       table.integer('event_id').references('events.id');
       table.integer('staff_id').references('staff.id');
+      table.string('role');
+
+      table.timestamps(true, true)
     })
   ])
 };
