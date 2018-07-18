@@ -58,66 +58,66 @@ exports.seed = function(knex, Promise) {
           staff_id: 12,
           role: 'Barback'
         },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bar Manager'
-        // },
-        //         {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Assistant Bar Manager'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bartender'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bartender'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bartender'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bartender'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bartender'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bartender'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bartender'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Bartender'
-        // },
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Barback'
-        // }, 
-        // {
-        //   event_id: 3,
-        //   staff_id: null,
-        //   role: 'Barback'
-        // }  
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bar Manager'
+        },
+                {
+          event_id: 3,
+          staff_id: null,
+          role: 'Assistant Bar Manager'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bartender'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bartender'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bartender'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bartender'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bartender'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bartender'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bartender'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Bartender'
+        },
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Barback'
+        }, 
+        {
+          event_id: 3,
+          staff_id: null,
+          role: 'Barback'
+        }  
       ]);
     });
 };
