@@ -6,7 +6,7 @@ exports.seed = function(knex, Promise) {
         {
           venue: 'Gothic',
           name: 'Sparklehorse',
-          date: '05/16/18',
+          date: 'Jul 4, 2018',
           time: '7:00 pm',
           bartenders: 4,
           barbacks: 1,
@@ -17,7 +17,7 @@ exports.seed = function(knex, Promise) {
         {
           venue: 'Bluebird',
           name: 'Slim Cessna',
-          date: '05/02/18',
+          date: 'Jul 20, 2018',
           time: '8:00 pm',
           bartenders: 3,
           barbacks: 1,
@@ -28,7 +28,7 @@ exports.seed = function(knex, Promise) {
         {
           venue: 'Ogden',
           name: 'Billy Prince Billy',
-          date: '05/12/18',
+          date: 'Jul 20, 2018',
           time: '6:00 pm',
           bartenders: 8,
           barbacks: 2,

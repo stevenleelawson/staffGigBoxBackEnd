@@ -71,7 +71,7 @@ describe('API Routes', () => {
         response.body[0].should.have.property('id', 1);
         response.body[0].should.have.property('venue', 'Gothic');
         response.body[0].should.have.property('name', 'Sparklehorse');
-        response.body[0].should.have.property('date', '05/16/18');
+        response.body[0].should.have.property('date', 'Jul 4, 2018');
         response.body[0].should.have.property('time', '7:00 pm');
         response.body[0].should.have.property('bartenders', 4);
         response.body[0].should.have.property('barbacks', 1);
@@ -92,7 +92,7 @@ describe('API Routes', () => {
         response.body[0].should.have.property('id', 1);
         response.body[0].should.have.property('venue', 'Gothic');
         response.body[0].should.have.property('name', 'Sparklehorse');
-        response.body[0].should.have.property('date', '05/16/18');
+        response.body[0].should.have.property('date', 'Jul 4, 2018');
         response.body[0].should.have.property('time', '7:00 pm');
         response.body[0].should.have.property('bartenders', 4);
         response.body[0].should.have.property('barbacks', 1);
@@ -171,7 +171,7 @@ describe('API Routes', () => {
       barback: false,
       bartender: true,
       beer_bucket: false,
-      name: "Jared"
+      name: 'Some Person'
     }
 
     chai.request(app)
@@ -181,8 +181,8 @@ describe('API Routes', () => {
         response.should.be.json
         response.should.have.status(201)
         response.body.should.be.an('object')
-        response.body.should.have.property('id', 14)
-        response.body.should.have.property('name', 'Jared')
+        response.body.should.have.property('id', 30)
+        response.body.should.have.property('name', 'Some Person')
         response.body.should.have.property('ass_bar_manager', true)
         response.body.should.have.property('bar_manager', false)
         response.body.should.have.property('barback', false)
@@ -218,7 +218,7 @@ describe('API Routes', () => {
         response.should.be.json
         response.should.have.status(201)
         response.body.should.be.an('object')
-        response.body.should.have.property('id', 7)
+        response.body.should.have.property('id', 12)
         response.body.should.have.property('event_id', 2)
         response.body.should.have.property('staff_id', 7)
         response.body.should.have.property('role', 'Bartender')
