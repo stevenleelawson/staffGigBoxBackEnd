@@ -92,7 +92,7 @@ describe('API Routes', () => {
         response.body[0].should.have.property('id', 1);
         response.body[0].should.have.property('venue', 'Gothic');
         response.body[0].should.have.property('name', 'Sparklehorse');
-        response.body[0].should.have.property('date', '05/16/18');
+        response.body[0].should.have.property('date', 'Jul 4, 2018');
         response.body[0].should.have.property('time', '7:00 pm');
         response.body[0].should.have.property('bartenders', 4);
         response.body[0].should.have.property('barbacks', 1);
